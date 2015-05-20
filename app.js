@@ -31,13 +31,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('express-session')({
   secret: 'keyboard cat',
   resave: false,
-  savveUninitialized: false
+  saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
+
+// Passport設定
+var User = require('./models/user');
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+// mongoose
+mongoose.connect('mongodb://localhost/demochatdb');
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
