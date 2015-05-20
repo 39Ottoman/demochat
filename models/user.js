@@ -7,6 +7,12 @@ var User = new Schema({
   password: String
 });
 
-User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, {
+  incorrectPasswordError: '正しいパスワードを入力してください',
+  incorrectUsernameError: '正しい%sを入力してください',
+  missingUsernameError: '正しい%sを入力してください',
+  missingPasswordError: 'パスワードが存在しません',
+  usernameField: 'ユーザ名'
+});
 
 module.exports = mongoose.model('User', User);
