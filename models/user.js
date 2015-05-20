@@ -12,7 +12,7 @@ User.plugin(passportLocalMongoose, {
   incorrectUsernameError: '正しい%sを入力してください',
   missingUsernameError: '正しい%sを入力してください',
   missingPasswordError: 'パスワードが存在しません',
-  usernameField: 'ユーザ名'
+  usernameField: 'username'
 });
 
 module.exports = mongoose.model('User', User);
