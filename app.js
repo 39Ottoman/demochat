@@ -45,7 +45,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // mongoose
-mongoose.connect('mongodb://localhost/demochatdb');
+//mongoose.connect('mongodb://localhost/demochatdb');
+mongoose.connect('mongodb://heroku_app36941217:tsvcq58f4g5tfldlg8t1qguo5e@ds031872.mongolab.com:31872/heroku_app36941217');
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
