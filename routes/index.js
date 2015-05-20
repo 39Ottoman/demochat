@@ -5,9 +5,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', {
-    user: req.user
-  });
+  if (req.user) {
+    res.redirect('/rooms');
+  } else {
+    res.redirect('/login');
+  }
 });
 
 router.get('/register', function (req, res) {
@@ -31,23 +33,26 @@ router.post('/register', function (req, res) {
 });
 
 router.get('/login', function (req, res) {
-  res.render('login', {
-    user: req.user
-  });
+  // console.log(req.flash('error'));
+  res.render('login', { user: req.user, info: req.flash('error') });
 });
 
-router.post('/login', passport.authenticate('local'), function (req, res) {
-  console.log('user: ', req.user.username);
-  res.redirect('/');
+router.post('/login', passport.authenticate('local', { failureRedirect: '/', failureFlash: true }), function (req, res) {
+  res.redirect('/rooms');
 });
 
 router.get('/logout', function (req, res) {
   req.logout();
-  res.redirect('/');
+  res.redirect('/login');
 });
 
-router.get('/ping', function (req, res) {
-  res.status(200).send("pong!");
+router.get('/rooms', ensureAuthenticated, function (req, res) {
+  res.render('rooms', { user: req.user });
 });
+
+function ensureAuthenticated(req, res, next) {
+  if(req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
 
 module.exports = router;
