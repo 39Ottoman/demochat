@@ -1,22 +1,26 @@
 doctype html
 html
   head
-    title= title
+    title DEMOCHAT
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(charset='UTF-8')
     link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css', rel='stylesheet', media='screen')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     header
-      nav
-        ul
+      nav.navbar.navbar-default
+        div.container
           if(!user)
-            li#logo: a(href='/login') DEMOCHAT
-            li.func: a(href='/login') ログイン
+            div.navbar-header
+              a.navbar-brand(href='/login') DEMOCHAT
+            ul.nav.navbar-nav.navbar-right
+              li: a(href='/login') ログイン
           if(user)
-            li#logo: a(href='/rooms') DEMOCHAT
-            li#username #{user.username}
-            li.func: a(href='/logout') ログアウト
+            div.navbar-header
+              a.navbar-brand(href='/rooms') DEMOCHAT
+            ul.nav.navbar-nav.navbar-right
+              li#username.disable: a #{user.username}
+              li: a(href='/logout') ログアウト
     block content
 
   script(src='//code.jquery.com/jquery-1.11.3.min.js')
