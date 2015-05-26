@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 
 var Room = new Schema({
   name: String,
-  description: String,
+  description: {
+    type: String,
+    default: ''
+  },
   members: [String], // usernameの集合
   online: [String], // usernameの集合
   chats: [String], // ChatのObjectIdの集合

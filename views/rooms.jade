@@ -5,10 +5,9 @@ block content
     .well
       label 新しいチャットルームを作成する
       form.form-inline(role='form', action="/room",method="post")
-        input.form-control.col-md-10(type='text', placeholder='チャットルーム名を入力してください')
+        input.form-control.col-md-10(type='text', name='roomName', placeholder='チャットルーム名を入力してください')
         &nbsp;
         button.btn.btn-primary.col-md-2(type='submit') 作成
+    div.message
     div#roomList
-      include ./parts/roompanel.jade
-      include ./parts/roompanel.jade
-      include ./parts/roompanel.jade
+  script(src='javascripts/rooms.js')
