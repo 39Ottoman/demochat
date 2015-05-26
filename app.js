@@ -40,7 +40,7 @@ app.use(passport.session());
 app.use(flash());
 
 app.use('/', routes);
-app.use('/users', users);
+// app.use('/users', users);
 
 // Passport設定
 var User = require('./models/user');
