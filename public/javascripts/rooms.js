@@ -32,7 +32,7 @@ function createRoomPanel(room) {
   var roomPanel =
     '<div class="panel panel-default">' +
       '<div class="panel-heading">' +
-      '<a href="/room/' + room._id + '">' + room.name + '</a>' +
+      '<a href="/roompage/' + room._id + '">' + room.name + '</a>' +
       '</div>' +
       '<div class="panel-body">' +
         room.description +

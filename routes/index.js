@@ -5,11 +5,8 @@ var Room = require('../models/room');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  if (req.user) {
-    res.redirect('/rooms');
-  }
-  res.redirect('/login');
+router.get('/', ensureAuthenticated, function (req, res, next) {
+  res.redirect('/rooms');
 });
 
 router.get('/register', function (req, res) {
@@ -77,6 +74,65 @@ router.post('/room', function(req, res) {
   }
   res.redirect('/rooms');
 });
+
+// roomIdが該当するチャットルームの情報を取得する
+router.get('/room/:roomId', function(req, res) {
+  var roomId = req.params.roomId;
+  Room.findOne({ _id: roomId }, function(err, room) {
+    res.send(room);
+  });
+});
+
+// roomIdが該当するチャットルームのチャットルーム内部画面に遷移する
+router.get('/roompage/:roomId', ensureAuthenticated, function(req, res) {
+  var roomId = req.params.roomId;
+  Room.findOne({ _id: roomId }, function(err, room) {
+    res.render('roompage', { user: req.user, room: room });
+  });
+});
+
+// roomIdが該当するチャットルームに参加する
+router.put('/room/:roomId/entry', function(req, res) {
+  var roomId = req.params.roomId;
+  var username = req.body.username;
+  Room.findOne({ _id: roomId }, function(err, room) {
+    // membersにusernameがなければ、追加
+    var members = room.members;
+    var index = members.indexOf(username);
+    if(index === -1) {
+      members.push(username);
+      Room.update({ _id: roomId }, { $set: { members: members }}, function(err) {
+        res.send(true);
+      });
+    }
+    // } else {
+    //   // あれば削除
+    //   members.splice(i, 1);
+    //   Room.update({ _id: roomId }, { $set: { members: members }}, function(err) {
+    //     res.send(true);
+    //   });
+    // }
+  });
+});
+
+// roomIdが該当するチャットルームから退出する
+router.put('/room/:roomId/exit', function(req, res) {
+  var roomId = req.params.roomId;
+  var username = req.body.username;
+  Room.findOne({ _id: roomId }, function(err, room) {
+    // membersにusernameがなければ、追加
+    var members = room.members;
+    var index = members.indexOf(username);
+    if(index != -1) {
+      // あれば削除
+      members.splice(index, 1);
+      Room.update({ _id: roomId }, { $set: { members: members }}, function(err) {
+        res.send(true);
+      });
+    }
+  });
+});
+
 
 function ensureAuthenticated(req, res, next) {
   if(req.isAuthenticated()) { return next(); }

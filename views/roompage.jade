@@ -1,0 +1,17 @@
+extends header
+
+block content
+  p#roomId(style='display: none;') #{room._id}
+  .container
+    div#toolBar
+      label(for='enterButton', style='font-size: 20px;') #{room.name}
+      &nbsp;&nbsp;&nbsp;
+      button#enterButton.btn.btn-success(type='button') 参加
+      &nbsp;
+      button#settingButton.btn.btn-success.pull-right(type='button', style='display: none;') 設定
+    div#entries
+    div
+      div#questionArea
+      div#chatArea
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+  script(src='/javascripts/roompage.js')
