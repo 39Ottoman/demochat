@@ -7,10 +7,8 @@ function init() {
   var username = $('#username>a').text();
   var roomId = $('#roomId').text();
   console.log(username, roomId);
-  var $entries = $('#entries');
 
-  // チャットルーム一覧を初期化
-  $entries.children().remove();
+
 
   // /room/:roomIdにGETでアクセス
   $.get('/room/' + roomId, function (room) {
@@ -19,15 +17,10 @@ function init() {
       console.log(room);
       // 参加者であれば参加ボタン・設定ボタンを更新
       updateToolBar(username, room.members);
+      // 参加者であれば参加者表示エリアを表示
+      updateMembersArea(username, room.members);
 
-      // チャット参加者表示エリアを更新
-      // $.each(room.members, function (index, memberName) {
-      //   var memberSpan = createMemberSpan(memberName);
-      //   $entries.append(memberSpan);
-      // });
     }
-    // var roomPanel = createRoomPanel(room);
-    // $roomList.prepend(roomPanel);
   });
 }
 
@@ -37,7 +30,7 @@ function updateToolBar(username, members) {
   // 参加者であれば不参加ボタンと設定ボタンを表示
   var $enterButton = $('#enterButton');
   var $settingButton = $('#settingButton');
-  if($.inArray(username, members) != -1) {
+  if(isMember(username, members)) {
     $enterButton.text('不参加');
     $enterButton.removeClass('btn-success');
     $enterButton.addClass('btn-danger');
@@ -94,6 +87,27 @@ function exitRoom() {
     }
   });
 }
-function createMemberSpan(memberName) {
-  return '<span>' + memberName + '</span>';
+
+// 参加者表示エリアを表示する
+function updateMembersArea(username, members) {
+  var $membersArea = $('#membersArea');
+  // チャットルーム一覧を初期化
+  $membersArea.children().remove();
+  // 参加者であれば参加者表示エリアに名前を表示
+  if(isMember(username, members)) {
+    $.each(members, function (index, memberName) {
+      var memberSpan = createMemberSpan(memberName);
+      $membersArea.append(memberSpan);
+    });
+  }
+}
+
+// チャット参加者表示部分を生成する
+function createMemberSpan(username) {
+  return '<span style="margin-right: 10px;">' + username + '</span>';
+}
+
+// チャット参加者かどうかを判定する
+function isMember(username, members) {
+  return $.inArray(username, members) != -1;
 }
