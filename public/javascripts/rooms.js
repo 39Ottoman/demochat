@@ -1,13 +1,5 @@
 // ページ表示時にチャットルーム一覧を読込
 $(function() {
-  // var data = {
-  //   _id: '2222',
-  //   name: '新人歓迎会',
-  //   description: 'XX年度○○部の新人歓迎会を行います!',
-  //   members: ['hori', 'yamada']
-  // };
-  // var html = createRoomPanel(data);
-  // $('#roomList').prepend(html);
   showRooms();
 });
 

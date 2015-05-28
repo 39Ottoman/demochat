@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Question = require('../models/question');
+var Chat = require('../models/chat');
 
 
 var Room = new Schema({
@@ -10,8 +12,14 @@ var Room = new Schema({
   },
   members: [String], // usernameの集合
   online: [String], // usernameの集合
-  chats: [String], // ChatのObjectIdの集合
-  questions: [String] // QuestionのObjectIdの集合
+  chats: [{ // ChatのObjectIdの集合
+    type: Schema.Types.ObjectId,
+    ref: 'Chat'
+  }],
+  questions: [{ // QuestionのObjectIdの集合
+    type: Schema.Types.ObjectId,
+    ref: 'Question'
+  }]
 });
 
 

@@ -14,7 +14,7 @@ block content
     div#communicationArea(style='display: none;')
       div#questionArea.col-xs-6(style='border-style: solid; border-width: thin;')
         div#questionList.col-xs-12(style='overflow: scroll; height: 500px;')
-        button#questionButton.btn.btn-primary.col-xs-12 アンケートを作成
+        a#questionButton.btn.btn-primary.col-xs-12(href='/room/#{room.id}/question') アンケートを作成
       div#chatArea.col-xs-6(style='border-style: solid; border-width: thin;')
         div#chatList.col-xs-12(style='overflow: scroll; height: 500px;')
         button#chatButton.btn.btn-primary.col-xs-12 メッセージを投稿

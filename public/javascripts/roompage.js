@@ -10,8 +10,6 @@ function init() {
   var roomId = $('#roomId').text();
   console.log(username, roomId);
 
-
-
   // /room/:roomIdにGETでアクセス
   $.get('/room/' + roomId, function (room) {
     // チャットルームがあれば、内容に従ってページを更新
@@ -25,10 +23,8 @@ function init() {
       updateDescriptionArea(username, room);
       // 参加者であればアンケート表示エリアとチャット表示エリアを表示
       updateCommunicationArea(username, room.members);
-
-      for (var i = 0; i < 2; i++) {
-        $('#questionList').prepend(createQuestionPanel(i, '予算はいくらがいい?', 'たろう', ['和食', 'イタリアン']));
-      }
+      // 既に投稿されているアンケート一覧を表示
+      updateQuestionArea(username, room);
     }
   });
 }
@@ -132,33 +128,47 @@ function updateCommunicationArea(username, members) {
   }
 }
 
+// アンケート表示エリアを更新する
+function updateQuestionArea(username, room) {
+  var $questionList = $('#questionList');
+  $questionList.children().remove();
+  if (isMember(username, room.members)) {
+    for (var i = 0; i < room.questions.length; i++) {
+      var question = room.questions[i];
+      $questionList.prepend(createQuestionPanel(question));
+    }
+  }
+}
+
 // チャット参加者表示部分を生成する
 function createMemberSpan(username) {
   return '<span style="margin-right: 10px;">' + username + '</span>';
 }
 
 // アンケートパネルを生成する
-function createQuestionPanel(id, title, username, items) {
-  var timeString = new Date().toLocaleTimeString();
+function createQuestionPanel(question) {
+  console.log(question);
+  var timeString = new Date(question.time).toLocaleString();
   var itemString = '';
-  for(var i = 0; i < items.length; i++) {
+  for(var i = 0; i < question.items.length; i++) {
+    var item = question.items[i];
     itemString +=
       '<div class="row">' +
         '<div class="col-xs-10">' +
-          '<input type="radio" name="' + id + '" value="' + items[i] + '">' +
-          '<label for="' + id + '" style="mergin-right: 10px;">' + items[i] + '</label>' +
+          '<input type="radio" name="' + question._id + '" value="' + question.items[i] + '">' +
+          '<label for="' + question._id + '" style="mergin-right: 10px;">' + item.text + '</label>' +
         '</div>' +
         '<div class="col-xs-2">' +
-          '<p class="replyCount">' + 0 + '</p>' +
+          '<p class="replyCount">' + item.selected.length + '</p>' +
         '</div>' +
       '</div>'
   }
   var questionPanel =
     '<div class="panel panel-default">' +
       '<div class="panel-heading">' +
-        '<div class="qId" style="display: none;">' + id + '</div>' +
-        '<div class="qParam">' + timeString + "  " + username + '</div>' +
-        '<div class="qTitle">' + title + '</div>' +
+        '<div class="qId" style="display: none;">' + question._id + '</div>' +
+        '<div class="qParam">(' + timeString + ")  " + question.username + '</div>' +
+        '<div class="qTitle">' + question.title + '</div>' +
       '</div>' +
       '<div class="panel-body">' +
         itemString +

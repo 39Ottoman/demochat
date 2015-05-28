@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 
 var Item = new Schema({
-  questionId: String,
   text: String,
   selected: [String] // userIdの集合
 });

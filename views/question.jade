@@ -1,0 +1,33 @@
+extends header
+
+block content
+  p#roomId(style='display: none;') #{room._id}
+  .container
+    form.form-horizontal(role='form', action="/room/#{room._id}/question", method="post")
+      legend アンケート作成
+      .form-group
+        label.col-sm-2.control-label 題
+        input.form-control(type="text", name='username', style='display: none;', value='#{user.username}')
+        .col-sm-7
+          input.form-control(type="text", name='title')
+        .col-sm-3
+      .form-group
+        label.col-sm-2.control-label 選択肢
+        .col-sm-7
+          input.form-control(type="text", name='items')
+        .col-sm-3
+      .form-group
+        .col-sm-2
+        .col-sm-7
+          input.form-control(type="text", name='items')
+        .col-sm-3
+      .form-group
+        .col-sm-2
+        .col-sm-7
+          button#addItemButton.btn.btn-success(type='button', style='margin-right: 10px;') 選択肢の追加
+          button#removeItemButton.btn.btn-success(type='button') 選択肢の削除
+      .form-group
+        button.btn.btn-primary.pull-right(type='submit') 作成
+        a.btn.btn-primary.pull-right(href='/roompage/#{room._id}') キャンセル
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+  script(src='/javascripts/question.js')
