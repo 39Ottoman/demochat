@@ -6,7 +6,7 @@ block content
     div#toolBar
       label.pull-left(for='enterButton', style='font-size: 30px;') #{room.name}
       button#enterButton.btn.btn-success.pull-left(type='button') 参加
-      button#settingButton.btn.btn-success.pull-right(type='button', style='display: none;') 設定
+      button#settingButton.btn.btn-success.pull-right(type='button', style='display: none;', disabled='disabled') 設定
     div.row
       div#membersArea.col-xs-10(style='font-size: 15px;')
       div#memberCount.col-xs-2.text-right
@@ -16,7 +16,8 @@ block content
         div#questionList.col-xs-12(style='overflow: scroll; height: 500px;')
         a#questionButton.btn.btn-primary.col-xs-12(href='/room/#{room.id}/question') アンケートを作成
       div#chatArea.col-xs-6(style='border-style: solid; border-width: thin;')
-        div#chatList.col-xs-12(style='overflow: scroll; height: 500px;')
-        button#chatButton.btn.btn-primary.col-xs-12 メッセージを投稿
+        div#chatList.col-xs-12(style='overflow: scroll; height: 400px;')
+        textarea#postArea.col-xs-12(style='overflow: scroll; height: 100px;', placeholder='メッセージを入力してください', disabled='disabled')
+        button#chatButton.btn.btn-primary.col-xs-12(disabled='disabled') メッセージを投稿
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
   script(src='/javascripts/roompage.js')

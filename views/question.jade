@@ -24,8 +24,8 @@ block content
       .form-group
         .col-sm-2
         .col-sm-7
-          button#addItemButton.btn.btn-success(type='button', style='margin-right: 10px;') 選択肢の追加
-          button#removeItemButton.btn.btn-success(type='button') 選択肢の削除
+          button#addItemButton.btn.btn-success(type='button', style='margin-right: 10px;', disabled='disabled') 選択肢の追加
+          button#removeItemButton.btn.btn-success(type='button', disabled='disabled') 選択肢の削除
       .form-group
         button.btn.btn-primary.pull-right(type='submit') 作成
         a.btn.btn-primary.pull-right(href='/roompage/#{room._id}') キャンセル

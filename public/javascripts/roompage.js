@@ -172,7 +172,7 @@ function createQuestionPanel(question) {
       '</div>' +
       '<div class="panel-body">' +
         itemString +
-        '<button class="replyButton btn btn-info">回答</button>' +
+        '<button class="replyButton btn btn-info" disabled="disabled">回答</button>' +
       '</div>'+
     '</div>';
   return questionPanel;
