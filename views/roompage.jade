@@ -4,16 +4,19 @@ block content
   p#roomId(style='display: none;') #{room._id}
   .container
     div#toolBar
-      label(for='enterButton', style='font-size: 20px;') #{room.name}
-      &nbsp;&nbsp;&nbsp;
-      button#enterButton.btn.btn-success(type='button') 参加
-      &nbsp;
+      label.pull-left(for='enterButton', style='font-size: 30px;') #{room.name}
+      button#enterButton.btn.btn-success.pull-left(type='button') 参加
       button#settingButton.btn.btn-success.pull-right(type='button', style='display: none;') 設定
     div.row
-      div#membersArea.col-xs-11
-      div#memberCount.col-xs-1
-    div
-      div#questionArea
-      div#chatArea
+      div#membersArea.col-xs-10(style='font-size: 15px;')
+      div#memberCount.col-xs-2.text-right
+    div#descriptionArea
+    div#communicationArea(style='display: none;')
+      div#questionArea.col-xs-6(style='border-style: solid; border-width: thin;')
+        div#questionList.col-xs-12(style='overflow: scroll; height: 500px;')
+        button#questionButton.btn.btn-primary.col-xs-12 アンケートを作成
+      div#chatArea.col-xs-6(style='border-style: solid; border-width: thin;')
+        div#chatList.col-xs-12(style='overflow: scroll; height: 500px;')
+        button#chatButton.btn.btn-primary.col-xs-12 メッセージを投稿
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
   script(src='/javascripts/roompage.js')

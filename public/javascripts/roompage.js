@@ -1,5 +1,7 @@
 // ページ表示時にチャットルームの情報を読込
-window.onload = init();
+$(function() {
+  init();
+});
 
 // チャットルーム内部画面を初期化
 function init() {
@@ -19,7 +21,14 @@ function init() {
       updateToolBar(username, room.members);
       // 参加者であれば参加者表示エリアを表示
       updateMembersArea(username, room.members);
+      // チャットルーム説明を表示
+      updateDescriptionArea(username, room);
+      // 参加者であればアンケート表示エリアとチャット表示エリアを表示
+      updateCommunicationArea(username, room.members);
 
+      for (var i = 0; i < 2; i++) {
+        $('#questionList').prepend(createQuestionPanel(i, '予算はいくらがいい?', 'たろう', ['和食', 'イタリアン']));
+      }
     }
   });
 }
@@ -88,7 +97,7 @@ function exitRoom() {
   });
 }
 
-// 参加者表示エリアを表示する
+// 参加者表示エリアを切り替える
 function updateMembersArea(username, members) {
   var $membersArea = $('#membersArea');
   var $memberCount = $('#memberCount');
@@ -97,8 +106,8 @@ function updateMembersArea(username, members) {
   $memberCount.children().remove();
   // 参加者であれば参加者表示エリアに名前を表示
   if(isMember(username, members)) {
-    $memberCount.append('<p style="font-size: 30px;">' + members.length + '</p>');
-    $membersArea.append('<span style="margin-right: 10px; font-size: 20px;">参加者:</span>');
+    $memberCount.append('<p style="font-size: 30px;">' + members.length + '人</p>');
+    $membersArea.append('<span style="margin-right: 10px;">参加者:</span>');
     $.each(members, function (index, memberName) {
       var memberSpan = createMemberSpan(memberName);
       $membersArea.append(memberSpan);
@@ -106,9 +115,57 @@ function updateMembersArea(username, members) {
   }
 }
 
+// チャットルーム説明を更新する
+function updateDescriptionArea(username, room) {
+  var $descriptionArea = $('#descriptionArea');
+  $descriptionArea.children().remove();
+  $descriptionArea.append('<p>' + room.description + '</p>');
+}
+
+// アンケート表示エリアとチャット表示エリアを切り替える
+function updateCommunicationArea(username, members) {
+  var $communicationArea = $('#communicationArea');
+  if (isMember(username, members)) {
+    $communicationArea.css('display', 'inline');
+  } else {
+    $communicationArea.css('display', 'none');
+  }
+}
+
 // チャット参加者表示部分を生成する
 function createMemberSpan(username) {
-  return '<span style="margin-right: 10px; font-size: 20px;">' + username + '</span>';
+  return '<span style="margin-right: 10px;">' + username + '</span>';
+}
+
+// アンケートパネルを生成する
+function createQuestionPanel(id, title, username, items) {
+  var timeString = new Date().toLocaleTimeString();
+  var itemString = '';
+  for(var i = 0; i < items.length; i++) {
+    itemString +=
+      '<div class="row">' +
+        '<div class="col-xs-10">' +
+          '<input type="radio" name="' + id + '" value="' + items[i] + '">' +
+          '<label for="' + id + '" style="mergin-right: 10px;">' + items[i] + '</label>' +
+        '</div>' +
+        '<div class="col-xs-2">' +
+          '<p class="replyCount">' + 0 + '</p>' +
+        '</div>' +
+      '</div>'
+  }
+  var questionPanel =
+    '<div class="panel panel-default">' +
+      '<div class="panel-heading">' +
+        '<div class="qId" style="display: none;">' + id + '</div>' +
+        '<div class="qParam">' + timeString + "  " + username + '</div>' +
+        '<div class="qTitle">' + title + '</div>' +
+      '</div>' +
+      '<div class="panel-body">' +
+        itemString +
+        '<button class="replyButton btn btn-info">回答</button>' +
+      '</div>'+
+    '</div>';
+  return questionPanel;
 }
 
 // チャット参加者かどうかを判定する
