@@ -2,16 +2,18 @@ extends header
 
 block content
   div.container
-    h1 Register Page
-    p.lead Say something worthwhile here.
-    br
-    h4= info
     form(role='form', action="/register",method="post", style='max-width: 300px;')
       .form-group
-          input.form-control(type='text', name="username", placeholder='Enter Username')
+        label.control-label ユーザ名
+        input.form-control(type='text', name="username")
       .form-group
-        input.form-control(type='password', name="password", placeholder='Password')
-      button.btn.btn-default(type='submit') Submit
+        label.control-label パスワード
+        input.form-control(type='password', name="password")
+      .form-group
+        label.control-label パスワード再入力
+        input.form-control(type='password', name="password")
+      p(style='color: red;')= info
+      button.btn.btn-primary(type='submit') 登録
       &nbsp;
       a(href='/')
-        button.btn.btn-primary(type="button") Cancel
+        button.btn.btn-default(type="button") キャンセル
