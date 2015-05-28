@@ -91,10 +91,14 @@ function exitRoom() {
 // 参加者表示エリアを表示する
 function updateMembersArea(username, members) {
   var $membersArea = $('#membersArea');
+  var $memberCount = $('#memberCount');
   // チャットルーム一覧を初期化
   $membersArea.children().remove();
+  $memberCount.children().remove();
   // 参加者であれば参加者表示エリアに名前を表示
   if(isMember(username, members)) {
+    $memberCount.append('<p style="font-size: 30px;">' + members.length + '</p>');
+    $membersArea.append('<span style="margin-right: 10px; font-size: 20px;">参加者:</span>');
     $.each(members, function (index, memberName) {
       var memberSpan = createMemberSpan(memberName);
       $membersArea.append(memberSpan);
@@ -104,7 +108,7 @@ function updateMembersArea(username, members) {
 
 // チャット参加者表示部分を生成する
 function createMemberSpan(username) {
-  return '<span style="margin-right: 10px;">' + username + '</span>';
+  return '<span style="margin-right: 10px; font-size: 20px;">' + username + '</span>';
 }
 
 // チャット参加者かどうかを判定する
