@@ -7,6 +7,11 @@
 var app = require('../app');
 var debug = require('debug')('demochat:server');
 var http = require('http');
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 /**
  * Get port from environment and store in Express.
@@ -88,3 +93,22 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+// Socket.IO設定
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function(socket) {
+  console.log('connected ', socket);
+
+  // io.join();
+
+  socket.on('question', function(msg) {
+    console.log('q: ' + msg.roomId);
+    console.log('q: ' + msg.data.username);
+    // io.broadcast.emit('question', msg);
+  });
+
+  socket.on('disconnect', function() {
+    console.log('disconnect');
+  });
+});

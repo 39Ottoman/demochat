@@ -27,7 +27,8 @@ block content
           button#addItemButton.btn.btn-success(type='button', style='margin-right: 10px;', disabled='disabled') 選択肢の追加
           button#removeItemButton.btn.btn-success(type='button', disabled='disabled') 選択肢の削除
       .form-group
-        button.btn.btn-primary.pull-right(type='submit') 作成
+        button#createQuestionButton.btn.btn-primary.pull-right(type='button') 作成
         a.btn.btn-primary.pull-right(href='/roompage/#{room._id}') キャンセル
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+  script(src='/socket.io/socket.io.js')
   script(src='/javascripts/question.js')
